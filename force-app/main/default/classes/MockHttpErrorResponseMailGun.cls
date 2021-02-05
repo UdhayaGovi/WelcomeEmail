@@ -1,0 +1,17 @@
+@isTest
+global class MockHttpErrorResponseMailGun implements HttpCalloutMock {
+    // Implement this interface method
+    global HTTPResponse respond(HTTPRequest req) {
+        // Optionally, only send a mock response for a specific endpoint
+        // and method.
+       // System.assertEquals('http://example.com/example/test', req.getEndpoint());
+        //System.assertEquals('GET', req.getMethod());
+        
+        // Create a fake response
+        HttpResponse res = new HttpResponse();
+        res.setHeader('Content-Type', 'application/json');
+        res.setBody('{"Email":"error"}');
+        res.setStatusCode(400);
+        return res;
+    }
+}

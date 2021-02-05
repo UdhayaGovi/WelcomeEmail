@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Mailgun API</label>
+    <protected>false</protected>
+    <values>
+        <field>API_Key__c</field>
+        <value xsi:type="xsd:string">db797913951134fff5958bc933e3dbf9-77751bfc-26142696</value>
+    </values>
+    <values>
+        <field>End_Point_URL__c</field>
+        <value xsi:type="xsd:string">https://api.mailgun.net/v3/sandboxc6baca3e1732433eb2a44c6a609df636.mailgun.org/messages</value>
+    </values>
+    <values>
+        <field>Host_Name__c</field>
+        <value xsi:type="xsd:string">api.mailgun.net</value>
+    </values>
+</CustomMetadata>
