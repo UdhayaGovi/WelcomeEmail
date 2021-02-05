@@ -52,13 +52,23 @@ public class SendWelcomeEmailQueueable implements Queueable, Database.AllowsCall
             }else{
                 HomeLoanAccountService.createTask(UTIL_Constants.ERROR_CONTACTUNAVAILABLE,accountWithContacts);
             }
-            if(accountWithContacts.Send_HL_Welcome_Email__c){
-                accountWithContacts.Send_HL_Welcome_Email__c = FALSE;
-                update accountWithContacts;
-            } 
+            resetSendEmailFieldAccount();
         }catch(Exception exp){
             HomeLoanAccountService.createTask(UTIL_Constants.ERROR_CLASSEXCEPTION + exp.getMessage() + ' , ' + exp.getStackTraceString(),accountWithContacts);            
+        	resetSendEmailFieldAccount();
         }
+    }
+    
+    /**
+    * @description : Reset send email field in Account
+    * @author 	: Udhaya | 05-Feb-2021 
+    * @param : 
+    **/
+    public void resetSendEmailFieldAccount(){
+       if(accountWithContacts.Send_HL_Welcome_Email__c){
+       		accountWithContacts.Send_HL_Welcome_Email__c = FALSE;
+       		update accountWithContacts;
+       } 
     }
     
     /**
