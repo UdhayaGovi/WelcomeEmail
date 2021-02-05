@@ -1,18 +1,35 @@
-# Salesforce DX Project: Next Steps
+Problem Statement:
+When the name of the Account has a specific criteria use mailgun to send email.
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+Criteria Used: 
+Account Name contains 'Home Loan', send 'Home Loan Welcome Email' to all the contacts of the Account.
 
-## How Do You Plan to Deploy Your Changes?
+Scenario:
+	1. Sales team captures the Lead.
+	2. Lead is qualified and is converted to Account, Contact, Opportunity.
+	3. Account is identified as type 'Home Loan'. (Picklist field: Loan_Type__c , Values : Home Loan, Refinance).
+	4. When Loan_Type__c in Account is updated as 'Home Loan', update the account name to - Name + ' Home Loan'.
+	5. Home Loan welcome email is sent to all contacts of the Account.
+	6. Success, Error during email sending process are captured as task in Account.
+	7. In case of error, welcome email can be sent again using Send_HL_Welcome_Email__c field in Account.
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+Mailgun configurations:
+	1. Created Account.
+	2. Created 'Home Loan Welcome Email' template to be used in Email.
+	3. Authorized recipients  emails to use sandbox subdomains.
 
-## Configure Your Salesforce DX Project
-
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+Salesforce configurations:
+	1. Account Object - Custom Field : Loan_Type__c (Values : Home Loan, Refinance)
+	2. Account Object - Custom Field : Send_HL_Welcome_Email__c (Boolean). To trigger sending welcome email when the original process resulted in error.
+	3. Account Page Layout.
+	4. Process Builder : Append account Name with 'Home Loan' when Loan_Type__c i= 'Home Loan'.
+	5. API_Configuration__mdt - End point config metadata, metadata records, pagelayout
+	6. HomeLoan_Email_Configuration__mdt - Email config metadata, metadata records, pagelayout
+	7. Trigger : AccountTrigger - After update context to send welcome email.
+	8. Apex Class: HomeLoanAccountService - To handle sending welcome email process. Capture success as Task with status Completed in Account. Capture error as Task with status Not Started and assigned to account owner.
+	9. Apex Class: SendWelcomeEmailQueueable - Callout class to mail gun.
+	10. Apex Class: HomeLoanAccountServiceTest - Test class for HomeLoanAccountService.
+	11. Apex Class: TestService - Test Service Utility.
+	12. Apex Class: UTIL_Constants - Constant Utility class.
+	13. Apex Class: MockHttpSuccessResponseMailGun.
+	14. Permission set: WelcomeEmail_PermissionSet
